@@ -1,7 +1,7 @@
 {
     "name": "njuptaaa/laravel-admin-assets",
     "description": "laravel-admin-assets",
-    "type": "library",
+    "type": "laravel-admin-assets",
     "license": "MIT",
     "authors": [
         {
