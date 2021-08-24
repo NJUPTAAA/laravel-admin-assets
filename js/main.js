@@ -158,7 +158,7 @@ function chunk_file ( name , accept , disk , driver ) {
         server: options.host ,
         pick: {
             id: '#filePicker' + name ,
-            label: '点击选择文件'
+            label: 'Click to choose file'
         } ,
         duplicate: true ,
         resize: false ,
@@ -192,12 +192,12 @@ function chunk_file ( name , accept , disk , driver ) {
     if ( window.chunk_file.fileNumLimit <= 1 ) {
         uploader.addButton ( {
             id: '#filePicker2' + name ,
-            label: '重新选择'
+            label: 'Repick'
         } );
     } else {
         uploader.addButton ( {
             id: '#filePicker2' + name ,
-            label: '继续选择'
+            label: 'Continue Picking'
         } );
     }
 
@@ -216,17 +216,17 @@ function chunk_file ( name , accept , disk , driver ) {
     uploader.on ( "error" , function ( type , handler ) {
         switch ( type ) {
             case 'Q_EXCEED_NUM_LIMIT':
-                swal ( '上传文件总数量不能超过' + uploader.options.fileNumLimit + '个' , '' , 'error' ).then ( function () {
+                swal ( 'Total File Exceed ' + uploader.options.fileNumLimit + ' File' , '' , 'error' ).then ( function () {
                 } );
                 break;
 
             case 'Q_EXCEED_SIZE_LIMIT':
-                swal ( '上传文件大小不能超过' + uploader.options.fileSizeLimit + "KB" , '' , 'error' ).then ( function () {
+                swal ( 'File Size Exceed ' + uploader.options.fileSizeLimit + " KB" , '' , 'error' ).then ( function () {
                 } );
                 break;
 
             case 'Q_TYPE_DENIED':
-                swal ( '上传文件类型不被允许' , '' , 'error' ).then ( function () {
+                swal ( 'File Format Not Allowed' , '' , 'error' ).then ( function () {
                 } );
                 break;
         }
@@ -320,12 +320,12 @@ function chunk_file ( name , accept , disk , driver ) {
                 break;
 
             case 'startUpload'://开始上传
-                $ ( '.form-horizontal button[type="submit"]' ).attr ( 'disabled' , true ).css ( { "cursor": " no-drop" } ).attr ( 'title' , '上传文件中...' );
+                $ ( '.form-horizontal button[type="submit"]' ).attr ( 'disabled' , true ).css ( { "cursor": " no-drop" } ).attr ( 'title' , 'Uploading...' );
                 setState ( 'uploading' );
                 break;
 
             case 'stopUpload'://暂停上传
-                $ ( '.form-horizontal button[type="submit"]' ).attr ( 'disabled' , true ).css ( { "cursor": " no-drop" } ).attr ( 'title' , '上传文件暂停...' );
+                $ ( '.form-horizontal button[type="submit"]' ).attr ( 'disabled' , true ).css ( { "cursor": " no-drop" } ).attr ( 'title' , 'Paused...' );
                 setState ( 'paused' );
                 break;
 
@@ -366,7 +366,7 @@ function chunk_file ( name , accept , disk , driver ) {
     } );
 
     $info.on ( 'click' , '.ignore' , function () {
-        swal ( '已忽略' , '' , 'error' ).then ( function () {
+        swal ( 'Ignored' , '' , 'error' ).then ( function () {
         } );
     } );
 
@@ -397,7 +397,7 @@ function chunk_file ( name , accept , disk , driver ) {
                 } else {
                     swal ( res.msg , '' , 'error' ).then ( function () {
                     } );
-                    throw '获取token错误';
+                    throw 'Token Fetch Error';
                 }
             }
         } );
@@ -634,9 +634,9 @@ function chunk_file ( name , accept , disk , driver ) {
             '</li>' ) ,
 
             $btns = $ ( '<div class="file-panel">' +
-                '<span class="cancel">删除</span>' +
-                '<span class="rotateRight">向右旋转</span>' +
-                '<span class="rotateLeft">向左旋转</span></div>' ).appendTo ( $li ) ,
+                '<span class="cancel">Delete</span>' +
+                '<span class="rotateRight">Rotate Right</span>' +
+                '<span class="rotateLeft">Rotate Left</span></div>' ).appendTo ( $li ) ,
             $prgress = $li.find ( 'p.progress span' ) ,
             $wrap = $li.find ( 'p.imgWrap' ) ,
             $info = $ ( '<p class="error"></p>' ) ,
@@ -644,15 +644,15 @@ function chunk_file ( name , accept , disk , driver ) {
             showError = function ( code ) {
                 switch ( code ) {
                     case 'exceed_size':
-                        text = '文件大小超出';
+                        text = 'File Size Limit Exceed';
                         break;
 
                     case 'interrupt':
-                        text = '上传暂停';
+                        text = 'Upload Interrupt';
                         break;
 
                     default:
-                        text = '上传失败，请重试';
+                        text = 'Upload Failure, please try again';
                         break;
                 }
 
@@ -663,12 +663,12 @@ function chunk_file ( name , accept , disk , driver ) {
             showError ( file.statusText );
         } else {
             // @todo lazyload
-            $wrap.text ( '预览中' );
+            $wrap.text ( 'PREVIEW' );
             uploader.makeThumb ( file , function ( error , src ) {
                 var img;
 
                 if ( error ) {
-                    $wrap.text ( '不能预览' );
+                    $wrap.text ( 'NO PREVIEW' );
                     return;
                 }
 
@@ -676,7 +676,7 @@ function chunk_file ( name , accept , disk , driver ) {
                     img = $ ( '<img src="' + src + '">' );
                     $wrap.empty ().append ( img );
                 } else {
-                    $wrap.text ( "预览出错" );
+                    $wrap.text ( "PREVIEW ERROR" );
                 }
             } , thumbnailWidth , thumbnailHeight );
 
@@ -817,18 +817,18 @@ function chunk_file ( name , accept , disk , driver ) {
             case 'uploading':
                 $ ( '#filePicker2' + name ).addClass ( 'element-invisible' );
                 $progress.show ();
-                $upload.text ( '暂停上传' );
+                $upload.text ( 'Pause Upload' );
                 break;
 
             case 'paused':
                 $progress.show ();
-                $upload.text ( '继续上传' );
+                $upload.text ( 'Resume Upload' );
                 break;
 
             case 'confirm':
                 $progress.hide ();
                 $ ( '#filePicker2' + name ).removeClass ( 'element-invisible' );
-                $upload.text ( '开始上传' );
+                $upload.text ( 'Start Upload' );
 
                 stats = uploader.getStats ();
                 if ( stats.successNum && !stats.uploadFailNum ) {
@@ -839,7 +839,7 @@ function chunk_file ( name , accept , disk , driver ) {
             case 'finish':
                 stats = uploader.getStats ();
                 if ( stats.successNum ) {
-                    swal ( '上传成功' , '' , 'success' ).then ( function () {
+                    swal ( 'Upload Successful' , '' , 'success' ).then ( function () {
                     } );
                 } else {
                     // 没有成功的图片，重设
@@ -857,23 +857,23 @@ function chunk_file ( name , accept , disk , driver ) {
         var text = '' , stats;
 
         if ( state === 'ready' ) {
-            text = '选中' + fileCount + '张图片，共' +
-                WebUploader.formatSize ( fileSize ) + '。';
+            text = 'Picked ' + fileCount + ' file(s), totally ' +
+                WebUploader.formatSize ( fileSize ) + '.';
         } else if ( state === 'confirm' ) {
             stats = uploader.getStats ();
             if ( stats.uploadFailNum ) {
-                text = '已成功上传' + stats.successNum + '张照片至XX相册，' +
-                    stats.uploadFailNum + '张照片上传失败，<a class="retry" href="#">重新上传</a>失败图片或<a class="ignore" href="#">忽略</a>'
+                text = 'Successfully uploaded ' + stats.successNum + ' files, ' +
+                    stats.uploadFailNum + ' files failure, <a class="retry" href="#">reupload</a> failed files or <a class="ignore" href="#">ignore</a>.'
             }
 
         } else {
             stats = uploader.getStats ();
-            text = '共' + fileCount + '张（' +
+            text = 'Totally ' + fileCount + 'files (' +
                 WebUploader.formatSize ( fileSize ) +
-                '），已上传' + stats.successNum + '张';
+                '), uploaded ' + stats.successNum + ' files';
 
             if ( stats.uploadFailNum ) {
-                text += '，失败' + stats.uploadFailNum + '张';
+                text += ', failed ' + stats.uploadFailNum + ' files';
             }
         }
 
